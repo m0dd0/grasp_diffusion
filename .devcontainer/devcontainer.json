@@ -9,6 +9,9 @@
         "--net",
         "host"
     ],
+    "features": {
+        "ghcr.io/devcontainers/features/conda:1": {}
+    },
     "customizations": {
         "vscode": {
             "extensions": [
