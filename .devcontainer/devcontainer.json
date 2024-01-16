@@ -1,7 +1,6 @@
 {
     "build": {
         "dockerfile": "Dockerfile",
-        "args": {}
     },
     "runArgs": [
         "--gpus",
@@ -9,9 +8,6 @@
         "--net",
         "host"
     ],
-    "features": {
-        "ghcr.io/devcontainers/features/conda:1": {}
-    },
     "customizations": {
         "vscode": {
             "extensions": [
@@ -28,5 +24,7 @@
             ]
         }
     },
-    "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/catkin_ws/src/grasping-benchmark-panda,type=bind",
+    "workspaceFolder": "/home/catkin_ws/src/grasping-benchmark-panda",
+    "postCreateCommand": "./.devcontainer/contact_graspnet/postCreateCommand.sh",
 }
