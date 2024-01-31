@@ -1,5 +1,5 @@
-ARG PARENT_IMAGE=nvidia/cuda:11.7.1-cudnn8-devel-ubuntu20.04
-FROM ${PARENT_IMAGE}  
+FROM nvidia/cuda:11.7.1-cudnn8-devel-ubuntu20.04
+# FROM ubuntu:20.04
 
 # setup environment (variables)
 ENV LANG C.UTF-8
@@ -14,7 +14,7 @@ RUN echo 'Etc/UTC' > /etc/timezone && \
     apt-get install -q -y --no-install-recommends tzdata && \
     rm -rf /var/lib/apt/lists/*
 
-# install basic packages
+# install some basic packages
 RUN apt-get update && \ 
     apt-get install -q -y --no-install-recommends \
     dirmngr \ 
@@ -24,25 +24,10 @@ RUN apt-get update && \
     curl \
     make \
     python3-pip \
+    python3-dev \
     software-properties-common && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-# setup sources.list and keys for ros packages
-RUN echo "deb http://packages.ros.org/ros/ubuntu focal main" > /etc/apt/sources.list.d/ros1-latest.list && \
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-
-# install ros packages
-RUN apt-get update && \ 
-    apt-get install -y --no-install-recommends \
-    ros-noetic-desktop \
-    python3-catkin-tools && \
-    rm -rf /var/lib/apt/lists/* && \
-    python3 -m pip install -U rosdep && \
-    rosdep init && \
-    echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> /etc/bash.bashrc && \
-    echo "source /home/catkin_ws/devel/setup.bash" >> /etc/bash.bashrc && \
-    echo "echo 'ROS environment initialized'" >> /etc/bash.bashrc
 
 # install additional dependencies for se3dif package
 RUN apt-get update && \
@@ -52,17 +37,17 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* 
 
-# some python dependencies for the se3dif package which are not included in the requirements.txt file
-RUN python3 -m pip install --no-cache-dir torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117
+RUN python3 -m pip install --upgrade pip
 
-# these are the exact same dependencies as in the requirements.txt file
-# however when they are installed after the image has build, there is some weird cuda error: error: no instance of overloaded function "atomicAdd" matches the argument list
-# as of now, no solution has been found. The error persists when using different cuda parent images
-# therfore the dependencies are installed here. 
-# After the dependecies are installed (during build to avoid cuda errors), the se3dif package can be installed without any errors as the dependencies are already installed.
+# RUN python3 -m pip install torch
+# RUN python3 -m pip install torch==1.13.1
+# RUN python3 -m pip install --no-cache-dir torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117
+
+# RUN git clone -b develop https://github.com/m0dd0/grasp_diffusion /home/grasp_diffusion
+
 RUN python3 -m pip install \
     numpy==1.21.6 \
-    theseus-ai==0.1.3 \
+    theseus-ai \
     tqdm==4.64.1 \
     configargparse==1.5.3 \
     h5py==3.7.0 \

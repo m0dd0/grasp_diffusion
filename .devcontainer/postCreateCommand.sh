@@ -1,0 +1,1 @@
+python3 -m pip install -e /home/grasp_diffusion

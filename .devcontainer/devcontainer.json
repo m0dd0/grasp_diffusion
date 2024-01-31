@@ -24,5 +24,7 @@
             ]
         }
     },
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/grasp_diffusiontype=bind",
+    "workspaceFolder": "/home/grasp_diffusion",
     "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
 }
