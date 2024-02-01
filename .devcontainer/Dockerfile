@@ -43,7 +43,7 @@ RUN python3 -m pip install --upgrade pip
 # to avaoid that the problematic version of theseus-ai is tried to be installed when installing the grasp_diffusion package one must add the --no-deps flag to the pip install command
 RUN python3 -m pip install \
     numpy==1.21.6 \
-    theseus-ai \
+    theseus-ai==0.2.1 \
     tqdm==4.64.1 \
     configargparse==1.5.3 \
     h5py==3.7.0 \
