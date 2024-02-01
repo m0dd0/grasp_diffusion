@@ -57,6 +57,7 @@ RUN python3 -m pip install \
     pytorch3d
 
 # copy data for the grasp_diffusion package into the docker container
-COPY ./data /home/data
+# COPY ./data /home/data
+# --> mount data folder from host machine into docker container to avoid copying data
 
 CMD ["/bin/bash"]

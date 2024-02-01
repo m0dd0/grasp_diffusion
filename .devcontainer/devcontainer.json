@@ -6,7 +6,9 @@
         "--gpus",
         "all",
         "--net",
-        "host"
+        "host",
+        "--mount",
+        "type=bind,source=/home/moritz/Documents/data,target=/home/data"
     ],
     "customizations": {
         "vscode": {
